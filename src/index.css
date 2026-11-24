@@ -1,0 +1,239 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-brand: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: #f7f7f3;
+    color: #111614;
+  }
+
+  html.dark {
+    background-color: #121413;
+    color: #ecece6;
+  }
+
+  /* Fallback smooth transition for browsers without View Transitions API */
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow, opacity !important;
+    transition-duration: 550ms !important;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Smooth GPU-composited cross-dissolve for light <-> dark theme toggle:
+   old stays 100% opaque underneath while new fades cleanly from 0 -> 1 on top (zero flash) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: harness-theme-dissolve 560ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes harness-theme-dissolve {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Whisper-subtle architectural drafting grid across the canvas */
+.amp-arch-grid {
+  background-image:
+    linear-gradient(to right, rgba(17, 22, 20, 0.022) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 22, 20, 0.022) 1px, transparent 1px),
+    linear-gradient(to right, rgba(17, 22, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 22, 20, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px, 28px 28px, 140px 140px, 140px 140px;
+  background-position: -1px -1px;
+}
+
+.dark .amp-arch-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.036) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.036) 1px, transparent 1px);
+  background-size: 28px 28px, 28px 28px, 140px 140px, 140px 140px;
+  background-position: -1px -1px;
+}
+
+/* Amp-style vertical architectural dotted divider line */
+.amp-dotted-col {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(135, 139, 134, 0.38) 1px,
+    transparent 1px
+  );
+  background-size: 1px 8px;
+  background-repeat: repeat-y;
+}
+
+.dark .amp-dotted-col {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.14) 1px,
+    transparent 1px
+  );
+}
+
+/* Amp inline code chip */
+.amp-inline-code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: rgba(110, 114, 108, 0.1);
+  color: #111614;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.dark .amp-inline-code {
+  background-color: rgba(255, 255, 255, 0.09);
+  color: #ecece6;
+}
+
+/* Amp italic underlined inline prose link */
+.amp-prose-link {
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  color: #111614;
+  transition: opacity 150ms ease;
+}
+
+.amp-prose-link:hover {
+  opacity: 0.65;
+}
+
+.dark .amp-prose-link {
+  color: #ecece6;
+}
+
+/* Interactive clickable function token harmonized with Amp light/dark code cards */
+.code-fn-token {
+  border-radius: 3px;
+  padding: 0 2px;
+  margin: 0 -2px;
+  cursor: pointer;
+  color: #111614;
+  background-color: rgba(243, 79, 63, 0.07);
+  border-bottom: 1.5px solid rgba(243, 79, 63, 0.48);
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.code-fn-token:hover,
+.code-fn-token:focus-visible {
+  background-color: rgba(243, 79, 63, 0.16);
+  border-bottom-color: #f34f3f;
+  color: #111614;
+  outline: none;
+}
+
+.code-fn-token[data-active="true"] {
+  background-color: rgba(243, 79, 63, 0.22);
+  border-bottom-color: #f34f3f;
+}
+
+.dark .code-fn-token {
+  color: #f3f3ee;
+  background-color: rgba(255, 107, 91, 0.12);
+  border-bottom-color: rgba(255, 107, 91, 0.55);
+}
+
+.dark .code-fn-token:hover,
+.dark .code-fn-token:focus-visible,
+.dark .code-fn-token[data-active="true"] {
+  background-color: rgba(255, 107, 91, 0.24);
+  border-bottom-color: #ff6b5b;
+}
+
+/* Unobtrusive Python syntax token hint — blends directly into Amp coral-red keywords */
+.code-syntax-token {
+  cursor: help;
+  border-radius: 2px;
+  border-bottom: 1px dotted rgba(243, 79, 63, 0.45);
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.code-syntax-token:hover,
+.code-syntax-token:focus-visible {
+  background-color: rgba(243, 79, 63, 0.1);
+  border-bottom-color: #f34f3f;
+  border-bottom-style: solid;
+  outline: none;
+}
+
+.dark .code-syntax-token {
+  border-bottom-color: rgba(255, 107, 91, 0.42);
+}
+
+.dark .code-syntax-token:hover,
+.dark .code-syntax-token:focus-visible {
+  background-color: rgba(255, 107, 91, 0.16);
+  border-bottom-color: #ff6b5b;
+  border-bottom-style: solid;
+}
+
+/* Quiet scrollbar for code containers */
+.code-scroll::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.code-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.code-scroll::-webkit-scrollbar-thumb {
+  background: rgba(135, 139, 134, 0.28);
+  border-radius: 999px;
+}
+
+.code-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(135, 139, 134, 0.48);
+}

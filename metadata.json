@@ -1,0 +1,6 @@
+{
+  "name": "Как создать ИИ-агента на Python",
+  "description": "Интерактивное руководство по созданию код-редактирующего ИИ-агента на простом Python с нуля: с кликабельным разбором функций, подсказками синтаксиса и гибким подключением Command Code GOAT и других LLM-провайдеров.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
